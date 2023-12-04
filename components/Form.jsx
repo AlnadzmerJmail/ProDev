@@ -56,7 +56,7 @@ function Form({ type, post, submitting, setPost, handleSubmit }) {
 						className="px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white"
 					>
 						{submitting
-							? `${type.slice(0, 1).toUpperCase()}${type.slice(1, -1)}ting...`
+							? `${type.slice(0, 1).toUpperCase()}${type.slice(1, -1)}ing...`
 							: `${type.slice(0, 1).toUpperCase()}${type.slice(1)}`}
 					</button>
 				</div>

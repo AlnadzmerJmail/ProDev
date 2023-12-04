@@ -3,10 +3,12 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 function PromptCard({ post, handleTagClick, handleEdit, handleDelete }) {
 	const { data: session } = useSession();
+
+	const router = useRouter();
 	const pathName = usePathname();
 
 	const [copied, setCopied] = useState('');
@@ -18,8 +20,18 @@ function PromptCard({ post, handleTagClick, handleEdit, handleDelete }) {
 		setTimeout(() => setCopied(''), 3000);
 	};
 
+	const navigateHandler = (e) => {
+		const el = e.target.getAttribute('alt');
+
+		if (el === 'copy-icon' || pathName === '/profile') return handleCopy();
+
+		router.push(
+			`/profile/${post.creator._id}/posts?name=${post.creator.username}`
+		);
+	};
+
 	return (
-		<div className="prompt_card mb-10">
+		<div className="prompt_card" onClick={navigateHandler}>
 			<div className="flex justify-between items-start gap5">
 				<div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
 					<Image
@@ -39,12 +51,15 @@ function PromptCard({ post, handleTagClick, handleEdit, handleDelete }) {
 						</p>
 					</div>
 				</div>
-				<div className="copy_btn" onClick={handleCopy}>
+				<div
+					className="copy_btn"
+					// onClick={handleCopy}
+				>
 					<Image
 						src={
 							copied === post.prompt
-								? 'assets/icons/tick.svg'
-								: 'assets/icons/copy.svg'
+								? '/assets/icons/tick.svg'
+								: '/assets/icons/copy.svg'
 						}
 						alt="copy-icon"
 						width={12}

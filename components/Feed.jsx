@@ -42,30 +42,31 @@ function Feed() {
 	};
 
 	return (
-		<section className="feed">
-			<form
-				action=""
-				className="relative w-full flex-center"
-				onSubmit={(e) => e.preventDefault()}
-			>
-				<input
-					type="text"
-					placeholder="Search here"
-					value={searchText}
-					required
-					className="search_input peer"
-					onChange={handleSearchChange}
-				/>
-			</form>
-
+		<>
+			<section className="feed">
+				<form
+					action=""
+					className="relative w-full flex-center"
+					onSubmit={(e) => e.preventDefault()}
+				>
+					<input
+						type="text"
+						placeholder="Search here"
+						value={searchText}
+						required
+						className="search_input peer"
+						onChange={handleSearchChange}
+					/>
+				</form>
+			</section>
 			<PromptCardList data={posts} handleTagClick={handleTagClick} />
-		</section>
+		</>
 	);
 }
 
 const PromptCardList = ({ data, handleTagClick }) => {
 	return (
-		<div className="mt-16 promt_layout">
+		<div className="mt-16 prompt_layout">
 			{data.map((post) => {
 				return (
 					<PromptCard
