@@ -4,6 +4,7 @@ let isConnected = false;
 
 export const connectToDB = async () => {
 	mongoose.set('strictQuery', true);
+	mongoose.set('strictPopulate', false);
 
 	if (isConnected) {
 		return console.log('CONNECTION TO DB IS SUCCESSFUL! 2');

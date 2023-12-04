@@ -1,5 +1,6 @@
 import { connectToDB } from '@utils/databse';
 import Prompt from '@models/prompt';
+import User from '@models/user';
 
 export const GET = async (req, res) => {
 	try {
@@ -17,6 +18,31 @@ export const GET = async (req, res) => {
 			: {};
 
 		await connectToDB();
+
+		if (searchText) {
+			const creator = await await User.findOne({
+				username: { $regex: new RegExp(searchText, 'i') },
+			}).populate('prompts');
+
+			if (creator) {
+				const { id, username, email, image } = creator;
+				const prompts = creator.prompts.map(({ _id, prompt, tag }) => {
+					return {
+						_id,
+						prompt,
+						tag,
+						creator: {
+							id,
+							username,
+							email,
+							image,
+						},
+					};
+				});
+
+				return new Response(JSON.stringify(prompts), { status: 200 });
+			}
+		}
 
 		const prompts = await Prompt.find({ ...queryOption }).populate('creator');
 

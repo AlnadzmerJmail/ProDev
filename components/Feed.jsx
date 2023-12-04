@@ -15,19 +15,22 @@ function Feed() {
 		if (searchText) {
 			searchDelay = window.setTimeout(() => {
 				fetchPost(searchText);
-			}, 2000);
+			}, 1000);
 		}
 		return () => window.clearTimeout(searchDelay);
 	}, [searchText]);
 
 	const fetchPost = async (searchText = '') => {
-		const response = await fetch(`/api/prompt?searchText=${searchText}`, {
-			method: 'GET',
-		});
+		try {
+			const response = await fetch(`/api/prompt?searchText=${searchText}`, {
+				method: 'GET',
+			});
 
-		const data = await response.json();
-
-		setPosts(data);
+			const data = await response.json();
+			setPosts(data);
+		} catch (error) {
+			alert('Something went wrong!');
+		}
 	};
 
 	const handleSearchChange = (e) => {

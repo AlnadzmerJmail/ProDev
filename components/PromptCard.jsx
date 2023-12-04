@@ -21,9 +21,11 @@ function PromptCard({ post, handleTagClick, handleEdit, handleDelete }) {
 	};
 
 	const navigateHandler = (e) => {
-		const el = e.target.getAttribute('alt');
+		const el = e.target.getAttribute('id');
 
-		if (el === 'copy-icon' || pathName === '/profile') return handleCopy();
+		if (el === 'tag' && handleTagClick) return handleTagClick(post?.tag);
+
+		if (el === 'copy' || pathName === '/profile') return handleCopy();
 
 		router.push(
 			`/profile/${post.creator._id}/posts?name=${post.creator.username}`
@@ -62,20 +64,18 @@ function PromptCard({ post, handleTagClick, handleEdit, handleDelete }) {
 								: '/assets/icons/copy.svg'
 						}
 						alt="copy-icon"
+						id="copy"
 						width={12}
 						height={12}
 					/>
 				</div>
 			</div>
 			<p className="my-4 font-satoshi text-sm text-gray-700">{post.prompt}</p>
-			<p
-				className="font-inter text-sm blue_gradient cursor-pointer"
-				onClick={() => handleTagClick && handleTagClick(post.tag)}
-			>
+			<p className="font-inter text-sm blue_gradient cursor-pointer" id="tag">
 				{post.tag}
 			</p>
 
-			{session?.user.id === post.creator._id && pathName === '/profile' && (
+			{session?.user.id === post.creator?._id && pathName === '/profile' && (
 				<div className="flex-center gap-4 mt-5 border=t border-gray-100">
 					<p
 						className="font-inter text-sm green_gradient cursor-pointer"
